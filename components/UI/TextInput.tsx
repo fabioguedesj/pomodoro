@@ -1,8 +1,13 @@
 import Add from 'components/svg/Add';
+import ITask from 'models/task';
+import { ChangeEvent, FC, FormEvent, useState } from 'react';
 import styled from 'styled-components';
 import Button from './Button';
+import { v4 as generateId } from 'uuid';
 
 const StyledForm = styled.form`
+  margin-top: 1rem;
+
   .field {
     display: flex;
     padding-left: 0.8rem;
@@ -18,9 +23,30 @@ const StyledForm = styled.form`
   }
 `;
 
-const TextInput = () => {
+type Props = {
+  createTask: (taskObj: ITask) => void;
+};
+
+const TextInput: FC<Props> = ({ createTask }) => {
+  const [userTask, setUserTask] = useState('');
+
+  const getUserTaskHandler = (e: ChangeEvent<HTMLInputElement>) =>
+    setUserTask(e.target.value);
+
+  const createTaskHandler = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!userTask) return;
+    const id = generateId();
+    const taskObj = {
+      id,
+      task: userTask,
+    };
+    createTask(taskObj);
+    setUserTask('');
+  };
+
   return (
-    <StyledForm autoComplete='off'>
+    <StyledForm autoComplete='off' onSubmit={createTaskHandler}>
       <input type='hidden' autoComplete='false' />
       <div className='field'>
         <label htmlFor='task' className='field__label visually-hidden'>
@@ -31,6 +57,8 @@ const TextInput = () => {
           className='field__input'
           id='task'
           placeholder='Write your task here...'
+          onChange={getUserTaskHandler}
+          value={userTask}
         />
         <Button model='icon'>
           <span>

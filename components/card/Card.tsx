@@ -23,7 +23,7 @@ const CardWrapper = styled.section<{
     display: flex;
     flex-direction: column;
     background-color: ${({ theme }) => theme.colors.gray};
-    box-shadow: 0 0 0.3rem ${({ theme }) => theme.colors.lightGray};
+    box-shadow: ${({theme}) => theme.boxShadow};
     border-radius: ${({ theme }) => theme.borderRadius};
     padding: 2rem;
     padding-top: 1rem;

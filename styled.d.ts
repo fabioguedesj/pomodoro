@@ -14,5 +14,6 @@ declare module 'styled-components' {
       darkGreen;
     };
     borderRadius: string;
+    boxShadow: string;
   }
 }
